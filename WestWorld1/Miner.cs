@@ -1,4 +1,5 @@
 //A class defining a goldminer.
+
 public class Miner : BaseGameEntity
 {
     //the amount of gold a miner must have before he feels comfortable
@@ -38,8 +39,10 @@ public class Miner : BaseGameEntity
 
     public Miner(int id) : base(id)
     {
-        _stateMachine = new StateMachine<Miner>(this);
-        _stateMachine.CurrentState = GoHomeAndSleepTilRested.Instance;
+        _stateMachine = new StateMachine<Miner>(this)
+        {
+            CurrentState = GoHomeAndSleepTilRested.Instance
+        };
     }
 
     public int GoldCarried

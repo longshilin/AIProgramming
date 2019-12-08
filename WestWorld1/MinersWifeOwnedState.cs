@@ -68,13 +68,13 @@ class DoHouseWork : State<MinersWife>
         switch (_random.Next(3))
         {
             case 0:
-                Console.WriteLine("Elsa: Moppin' the floor");
+                Console.WriteLine("Elsa: Mopping the floor");
                 break;
             case 1:
-                Console.WriteLine("Elsa: Washin' the dishes");
+                Console.WriteLine("Elsa: Washing the dishes");
                 break;
             case 2:
-                Console.WriteLine("Elsa: Makin' the bed");
+                Console.WriteLine("Elsa: Making the bed");
                 break;
         }
     }
@@ -149,12 +149,12 @@ class CookStew : State<MinersWife>
 
     public override void Execute(MinersWife wife)
     {
-        Console.WriteLine("Elsa: Fussin' over food");
+        Console.WriteLine("Elsa: Fussing over food");
     }
 
     public override void Exit(MinersWife wife)
     {
-        Console.WriteLine("Elsa: Puttin' the stew on the table");
+        Console.WriteLine("Elsa: Putting the stew on the table");
     }
 
     public override bool OnMessage(MinersWife wife, Telegram telegram)
