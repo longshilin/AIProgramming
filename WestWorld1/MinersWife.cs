@@ -1,40 +1,40 @@
 public class MinersWife : BaseGameEntity
 {
     //an instance of the state machine class
-    StateMachine<MinersWife> stateMachine;
+    StateMachine<MinersWife> _stateMachine;
 
-    location_type location;
+    LocationType _location;
 
     public bool Cooking { get; set; }
 
     public MinersWife(int id) : base(id)
     {
-        stateMachine = new StateMachine<MinersWife>(this)
+        _stateMachine = new StateMachine<MinersWife>(this)
         {
             CurrentState = DoHouseWork.Instance,
             GlobalState = WifesGlobalState.Instance
         };
     }
 
-    public location_type Location => location;
+    public LocationType Location => _location;
 
-    public void ChangeLocation(location_type loc)
+    public void ChangeLocation(LocationType loc)
     {
-        location = loc;
+        _location = loc;
     }
 
     public override bool HandleMessage(Telegram telegram)
     {
-        return stateMachine.HandleMessage(telegram);
+        return _stateMachine.HandleMessage(telegram);
     }
 
     public override void Update()
     {
-        stateMachine.Update();
+        _stateMachine.Update();
     }
 
-    public StateMachine<MinersWife> GetFSM()
+    public StateMachine<MinersWife> GetFsm()
     {
-        return stateMachine;
+        return _stateMachine;
     }
 }

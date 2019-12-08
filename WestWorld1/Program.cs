@@ -15,7 +15,7 @@ namespace WestWorld1
             EntityManager.Instance.RegisterEntity(elsa);
 
             //run Bob and Elsa through a few Update calls
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 20; i++)
             {
                 bob.Update();
                 elsa.Update();

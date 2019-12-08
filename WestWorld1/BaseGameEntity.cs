@@ -4,23 +4,23 @@ using System.Diagnostics;
 abstract public class BaseGameEntity
 {
     //every entity must have a unique identifying number
-    int id;
+    int _id;
 
     //this is the next valid ID. Each time a BaseGameEntity is instantiated
     //this value is updated
-    static int nextValidID = 0;
+    static int _nextValidId = 0;
 
     public BaseGameEntity(int id)
     {
-        this.ID = id;
+        this.Id = id;
     }
 
     //all entities must implement an update function
     abstract public void Update();
 
-    public int ID
+    public int Id
     {
-        get => id;
+        get => _id;
 
         //this must be called within the constructor to make sure the ID is set
         //correctly. It verifies that the value passed to the method is greater
@@ -28,9 +28,9 @@ abstract public class BaseGameEntity
         //the next valid ID
         set
         {
-            Debug.Assert(value >= nextValidID, "<BaseGameEntity::SetID>: invalid ID");
-            id = value;
-            nextValidID = id + 1;
+            Debug.Assert(value >= _nextValidId, "<BaseGameEntity::SetID>: invalid ID");
+            _id = value;
+            _nextValidId = _id + 1;
         }
     }
 

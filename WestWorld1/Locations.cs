@@ -1,7 +1,7 @@
-public enum location_type
+public enum LocationType
 {
-    shack,
-    goldmine,
-    bank,
-    saloon
+    Shack,
+    Goldmine,
+    Bank,
+    Saloon
 };

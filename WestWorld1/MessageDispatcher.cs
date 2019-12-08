@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 class MessageDispatcher
 {
-    List<Telegram> queue = new List<Telegram>();
+    List<Telegram> _queue = new List<Telegram>();
 
     void Discharge(BaseGameEntity receiver, Telegram telegram)
     {
@@ -25,10 +25,10 @@ class MessageDispatcher
     //this is a singleton
     public static MessageDispatcher Instance => instance;
 
-    public void DispatchMessage(long time, int senderID, int receiverID, int messageID)
+    public void DispatchMessage(long time, int senderId, int receiverId, int messageId)
     {
-        BaseGameEntity receiver = EntityManager.Instance.GetEntityFromID(receiverID);
-        Telegram telegram = new Telegram(time, senderID, receiverID, messageID);
+        BaseGameEntity receiver = EntityManager.Instance.GetEntityFromId(receiverId);
+        Telegram telegram = new Telegram(time, senderId, receiverId, messageId);
         if (time <= 0.0)
         {
             Discharge(receiver, telegram);
@@ -37,8 +37,8 @@ class MessageDispatcher
         {
             long currentTime = Stopwatch.GetTimestamp();
             telegram.Time = currentTime + time;
-            queue.Add(telegram);
-            queue.Sort(CompareByTime);
+            _queue.Add(telegram);
+            _queue.Sort(CompareByTime);
         }
     }
 
@@ -51,12 +51,12 @@ class MessageDispatcher
     {
         long currentTime = Stopwatch.GetTimestamp();
         
-        while (queue.Count > 0 && queue[0].Time < currentTime && queue[0].Time > 0)
+        while (_queue.Count > 0 && _queue[0].Time < currentTime && _queue[0].Time > 0)
         {
-            Telegram telegram = queue[0];
-            BaseGameEntity receiver = EntityManager.Instance.GetEntityFromID(telegram.ReceiverID);
+            Telegram telegram = _queue[0];
+            BaseGameEntity receiver = EntityManager.Instance.GetEntityFromId(telegram.ReceiverId);
             Discharge(receiver, telegram);
-            queue.Remove(queue[0]);
+            _queue.Remove(_queue[0]);
         }
     }
 }

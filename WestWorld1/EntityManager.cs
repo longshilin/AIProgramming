@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 class EntityManager
 {
-    Dictionary<int, BaseGameEntity> entityMap = new Dictionary<int, BaseGameEntity>();
+    Dictionary<int, BaseGameEntity> _entityMap = new Dictionary<int, BaseGameEntity>();
 
     static readonly EntityManager instance = new EntityManager();
 
@@ -21,16 +21,16 @@ class EntityManager
 
     public void RegisterEntity(BaseGameEntity newEntity)
     {
-        entityMap.Add(newEntity.ID, newEntity);
+        _entityMap.Add(newEntity.Id, newEntity);
     }
 
-    public BaseGameEntity GetEntityFromID(int id)
+    public BaseGameEntity GetEntityFromId(int id)
     {
-        return entityMap[id];
+        return _entityMap[id];
     }
 
     public void RemoveEntity(BaseGameEntity entity)
     {
-        entityMap.Remove(entity.ID);
+        _entityMap.Remove(entity.Id);
     }
 }

@@ -12,19 +12,23 @@ public class EnterMineAndDigForNugget : State<Miner>
 
     // Explicit static constructor to tell C# compiler
     // not to mark type as beforefieldinit
-    static EnterMineAndDigForNugget() { }
+    static EnterMineAndDigForNugget()
+    {
+    }
 
-    EnterMineAndDigForNugget() { }
+    EnterMineAndDigForNugget()
+    {
+    }
 
     //this is a singleton
     public static EnterMineAndDigForNugget Instance => instance;
 
     public override void Enter(Miner miner)
     {
-        if (miner.Location != location_type.goldmine)
+        if (miner.Location != LocationType.Goldmine)
         {
             Console.WriteLine("Miner Bob: Walking to the goldmine");
-            miner.ChangeLocation(location_type.goldmine);
+            miner.ChangeLocation(LocationType.Goldmine);
         }
     }
 
@@ -42,12 +46,12 @@ public class EnterMineAndDigForNugget : State<Miner>
         //if enough gold mined, go and put it in the bank
         if (miner.PocketsFull())
         {
-            miner.GetFSM().ChangeState(VisitBankAndDepositGold.Instance);
+            miner.GetFsm().ChangeState(VisitBankAndDepositGold.Instance);
         }
 
         if (miner.Thirsty())
         {
-            miner.GetFSM().ChangeState(QuenchThirst.Instance);
+            miner.GetFsm().ChangeState(QuenchThirst.Instance);
         }
     }
 
@@ -71,9 +75,13 @@ public class VisitBankAndDepositGold : State<Miner>
 
     // Explicit static constructor to tell C# compiler
     // not to mark type as beforefieldinit
-    static VisitBankAndDepositGold() { }
+    static VisitBankAndDepositGold()
+    {
+    }
 
-    VisitBankAndDepositGold() { }
+    VisitBankAndDepositGold()
+    {
+    }
 
     //this is a singleton
     public static VisitBankAndDepositGold Instance => instance;
@@ -81,14 +89,14 @@ public class VisitBankAndDepositGold : State<Miner>
     public override void Enter(Miner miner)
     {
         Console.WriteLine("Miner Bob: Going to the bank. Yes sir");
-        miner.ChangeLocation(location_type.bank);
+        miner.ChangeLocation(LocationType.Bank);
     }
 
     public override void Execute(Miner miner)
     {
         //deposit the gold
         miner.AddToWealth(miner.GoldCarried);
-        
+
         miner.GoldCarried = 0;
 
         Console.WriteLine("Miner Bob: Depositing gold. Total savings now: {0}", miner.Wealth);
@@ -97,11 +105,11 @@ public class VisitBankAndDepositGold : State<Miner>
         if (miner.Wealth >= Miner.ComfortLevel)
         {
             Console.WriteLine("Miner Bob: WooHoo! Rich enough for now. Back home to see my lady");
-            miner.GetFSM().ChangeState(GoHomeAndSleepTilRested.Instance);
+            miner.GetFsm().ChangeState(GoHomeAndSleepTilRested.Instance);
         }
         else
         {
-            miner.GetFSM().ChangeState(EnterMineAndDigForNugget.Instance);
+            miner.GetFsm().ChangeState(EnterMineAndDigForNugget.Instance);
         }
     }
 
@@ -124,20 +132,24 @@ public class GoHomeAndSleepTilRested : State<Miner>
 
     // Explicit static constructor to tell C# compiler
     // not to mark type as beforefieldinit
-    static GoHomeAndSleepTilRested() { }
+    static GoHomeAndSleepTilRested()
+    {
+    }
 
-    GoHomeAndSleepTilRested() { }
+    GoHomeAndSleepTilRested()
+    {
+    }
 
     //this is a singleton
     public static GoHomeAndSleepTilRested Instance => instance;
 
     public override void Enter(Miner miner)
     {
-        if (miner.Location != location_type.shack)
+        if (miner.Location != LocationType.Shack)
         {
             Console.WriteLine("Miner Bob: Walking home");
-            miner.ChangeLocation(location_type.shack);
-            MessageDispatcher.Instance.DispatchMessage(0, miner.ID, 1, 0);
+            miner.ChangeLocation(LocationType.Shack);
+            MessageDispatcher.Instance.DispatchMessage(0, miner.Id, 1, 0);
         }
     }
 
@@ -146,7 +158,7 @@ public class GoHomeAndSleepTilRested : State<Miner>
         if (!miner.Fatigued())
         {
             Console.WriteLine("Miner Bob: What a God darn fantastic nap! Time to find more gold");
-            miner.GetFSM().ChangeState(EnterMineAndDigForNugget.Instance);
+            miner.GetFsm().ChangeState(EnterMineAndDigForNugget.Instance);
         }
         else
         {
@@ -162,13 +174,14 @@ public class GoHomeAndSleepTilRested : State<Miner>
 
     public override bool OnMessage(Miner miner, Telegram telegram)
     {
-        switch (telegram.MessageID)
+        switch (telegram.MessageId)
         {
             case 1:
                 Console.WriteLine("Miner Bob: Okay Hun, ahm a-coming!");
-                miner.GetFSM().ChangeState(EatStew.Instance);
+                miner.GetFsm().ChangeState(EatStew.Instance);
                 return true;
         }
+
         return false;
     }
 }
@@ -179,18 +192,22 @@ public class QuenchThirst : State<Miner>
 
     // Explicit static constructor to tell C# compiler
     // not to mark type as beforefieldinit
-    static QuenchThirst() { }
+    static QuenchThirst()
+    {
+    }
 
-    QuenchThirst() { }
+    QuenchThirst()
+    {
+    }
 
     //this is a singleton
     public static QuenchThirst Instance => instance;
 
     public override void Enter(Miner miner)
     {
-        if (miner.Location != location_type.saloon)
+        if (miner.Location != LocationType.Saloon)
         {
-            miner.ChangeLocation(location_type.saloon);
+            miner.ChangeLocation(LocationType.Saloon);
             Console.WriteLine("Miner Bob: Boy, ah sure is thirsty! Walking to the saloon");
         }
     }
@@ -201,7 +218,7 @@ public class QuenchThirst : State<Miner>
         {
             miner.BuyAndDrinkAWhiskey();
             Console.WriteLine("Miner Bob: That's mighty fine.");
-            miner.GetFSM().ChangeState(EnterMineAndDigForNugget.Instance);
+            miner.GetFsm().ChangeState(EnterMineAndDigForNugget.Instance);
         }
     }
 
@@ -222,9 +239,13 @@ class EatStew : State<Miner>
 
     // Explicit static constructor to tell C# compiler
     // not to mark type as beforefieldinit
-    static EatStew() { }
+    static EatStew()
+    {
+    }
 
-    EatStew() { }
+    EatStew()
+    {
+    }
 
     //this is a singleton
     public static EatStew Instance => instance;
@@ -233,13 +254,13 @@ class EatStew : State<Miner>
     {
         Console.WriteLine("Miner Bob: Smells Real good Elsa!");
     }
-    
+
     public override void Execute(Miner miner)
     {
         Console.WriteLine("Miner Bob: Tastes real good too!");
-        miner.GetFSM().RevertToPreviousState();
+        miner.GetFsm().RevertToPreviousState();
     }
-    
+
     public override void Exit(Miner miner)
     {
         Console.WriteLine("Miner Bob: Thank you lady. Ah better get back'");

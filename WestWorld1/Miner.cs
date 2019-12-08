@@ -14,66 +14,66 @@ public class Miner : BaseGameEntity
     public const int TirednessThreshold = 5;
 
     //an instance of the state machine class
-    StateMachine<Miner> stateMachine;
+    StateMachine<Miner> _stateMachine;
 
-    location_type location;
+    LocationType _location;
 
-    public location_type Location => location;
+    public LocationType Location => _location;
 
-    public void ChangeLocation(location_type loc)
+    public void ChangeLocation(LocationType loc)
     {
-        location = loc;
+        _location = loc;
     }
 
     //how many nuggets the miner has in his pockets
-    int goldCarried;
+    int _goldCarried;
 
-    int moneyInBank;
+    int _moneyInBank;
 
     //the higher the value, the thirstier the miner
-    int thirst;
+    int _thirst;
 
     //the higher the value, the more tired the miner
-    int fatigue;
+    int _fatigue;
 
     public Miner(int id) : base(id)
     {
-        stateMachine = new StateMachine<Miner>(this);
-        stateMachine.CurrentState = GoHomeAndSleepTilRested.Instance;
+        _stateMachine = new StateMachine<Miner>(this);
+        _stateMachine.CurrentState = GoHomeAndSleepTilRested.Instance;
     }
 
     public int GoldCarried
     {
-        get => goldCarried;
-        set => goldCarried = value;
+        get => _goldCarried;
+        set => _goldCarried = value;
     }
 
     public void AddToGoldCarried(int val)
     {
-        goldCarried += val;
-        if (goldCarried < 0) goldCarried = 0;
+        _goldCarried += val;
+        if (_goldCarried < 0) _goldCarried = 0;
     }
 
     public bool PocketsFull()
     {
-        return goldCarried >= MaxNuggets;
+        return _goldCarried >= MaxNuggets;
     }
 
     public void AddToWealth(int val)
     {
-        moneyInBank += val;
-        if (moneyInBank < 0) moneyInBank = 0;
+        _moneyInBank += val;
+        if (_moneyInBank < 0) _moneyInBank = 0;
     }
 
     public int Wealth
     {
-        get => moneyInBank;
-        set => moneyInBank = value;
+        get => _moneyInBank;
+        set => _moneyInBank = value;
     }
 
     public bool Thirsty()
     {
-        if (thirst >= ThirstLevel)
+        if (_thirst >= ThirstLevel)
         {
             return true;
         }
@@ -83,31 +83,31 @@ public class Miner : BaseGameEntity
 
     public void BuyAndDrinkAWhiskey()
     {
-        thirst = 0;
-        moneyInBank -= 2;
+        _thirst = 0;
+        _moneyInBank -= 2;
     }
 
     public override bool HandleMessage(Telegram telegram)
     {
-        return stateMachine.HandleMessage(telegram);
+        return _stateMachine.HandleMessage(telegram);
     }
 
     //this must be implemented
     public override void Update()
     {
-        thirst += 1;
+        _thirst += 1;
 
-        stateMachine.Update();
+        _stateMachine.Update();
     }
 
-    public StateMachine<Miner> GetFSM()
+    public StateMachine<Miner> GetFsm()
     {
-        return stateMachine;
+        return _stateMachine;
     }
 
     public bool Fatigued()
     {
-        if (fatigue > TirednessThreshold)
+        if (_fatigue > TirednessThreshold)
         {
             return true;
         }
@@ -117,11 +117,11 @@ public class Miner : BaseGameEntity
 
     public void DecreaseFatigue()
     {
-        fatigue -= 1;
+        _fatigue -= 1;
     }
 
     public void IncreaseFatigue()
     {
-        fatigue += 1;
+        _fatigue += 1;
     }
 }
