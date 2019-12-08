@@ -209,6 +209,7 @@ public class QuenchThirst : State<Miner>
         {
             miner.ChangeLocation(LocationType.Saloon);
             Console.WriteLine("Miner Bob: Boy, ah sure is thirsty! Walking to the saloon");
+            MessageDispatcher.Instance.DispatchMessage(0, miner.Id, 2, 3);
         }
     }
 
@@ -219,6 +220,7 @@ public class QuenchThirst : State<Miner>
             miner.BuyAndDrinkAWhiskey();
             Console.WriteLine("Miner Bob: That's mighty fine.");
             miner.GetFsm().ChangeState(EnterMineAndDigForNugget.Instance);
+            MessageDispatcher.Instance.DispatchMessage(5000, miner.Id, 2, 6);
         }
     }
 
@@ -229,6 +231,14 @@ public class QuenchThirst : State<Miner>
 
     public override bool OnMessage(Miner miner, Telegram telegram)
     {
+        switch (telegram.MessageId)
+        {
+            case 4:
+                Console.WriteLine("Miner: Hi Fly. I'm tired of you Fly and drove you.");
+                MessageDispatcher.Instance.DispatchMessage(15000, miner.Id, 2, 5);
+                return true;
+        }
+
         return false;
     }
 }
